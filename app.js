@@ -1,13 +1,12 @@
 const mysql = require("mysql2");
 const express = require("express");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
 const app = express();
 app.use(express.json());
-console.log(process.env.DB_HOST);
 
 const connection = mysql.createPool({
   host: process.env.DB_HOST,
