@@ -2,19 +2,31 @@ const mysql = require("mysql2");
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
-dotenv.config();
+
 
 const app = express();
 app.use(express.json());
 
-const connection = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  connectionLimit: 10,
+require('dotenv').config({ path: '../' });
+
+console.log(process.env.DB_NAME);
+
+
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST, // Ensure these values are correctly set in the .env file
+  user: process.env.DB_USER, 
+  password: process.env.DB_PASSWORD, 
+  database:process.env.DB_NAME,
 });
+
+connection.connect((err) => {
+  if (err) {
+    console.error('Database connection error:', err.stack);
+    return;
+  }
+  console.log('Connected to the database');
+});
+
 
 // Register API
 app.post("/register", async (req, res) => {
@@ -51,8 +63,6 @@ app.post("/register", async (req, res) => {
 app.get("/", async (req, res) => {
   res.send("Helllo");
 });
-  
-  
 
 // login
 // Login endpoint using stored procedure to get user by mobile
