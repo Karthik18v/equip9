@@ -16,7 +16,6 @@ const connection = mysql.createPool({
   connectionLimit: 10,
 });
 
-
 // Register API
 app.post("/register", async (req, res) => {
   console.log(res.body);
@@ -48,6 +47,12 @@ app.post("/register", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+app.get("/", async (req, res) => {
+  res.send("Helllo");
+});
+  
+  
 
 // login
 // Login endpoint using stored procedure to get user by mobile
